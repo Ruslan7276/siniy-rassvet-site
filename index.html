@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сайт Руслана - Видеопортал</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-sun"></i>
+                    <h1>Сайт Руслана</h1>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active">Главная</a></li>
+                        <li><a href="#">Фильмы</a></li>
+                        <li><a href="#">Сериалы</a></li>
+                        <li><a href="#">Новинки</a></li>
+                        <li><a href="#">Избранное</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="user-actions">
+                    <button class="btn btn-login">Да</button>
+                    <button class="btn btn-register">Нет</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Фильтры -->
+        <div class="filters">
+            <div class="filter-group">
+                <label for="category">Категория</label>
+                <select id="category">
+                    <option value="all">Все</option>
+                    <option value="movie">Фильмы</option>
+                    <option value="series">Сериалы</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="year">Год выпуска</label>
+                <select id="year">
+                    <option value="all">Все годы</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                    <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="genre">Жанр</label>
+                <select id="genre">
+                    <option value="all">Все жанры</option>
+                    <option value="action">Боевик</option>
+                    <option value="comedy">Комедия</option>
+                    <option value="drama">Драма</option>
+                    <option value="fantasy">Фэнтези</option>
+                    <option value="sci-fi">Фантастика</option>
+                    <option value="horror">Ужасы</option>
+                </select>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" placeholder="Поиск фильмов и сериалов...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+        
+        <!-- Секция фильмов -->
+        <h2 class="section-title">Фильмы</h2>
+        <div class="video-grid" id="movies-grid">
+            <!-- Фильмы будут добавлены через JS -->
+        </div>
+        
+        <!-- Секция сериалов -->
+        <h2 class="section-title">Сериалы</h2>
+        <div class="video-grid" id="series-grid">
+            <!-- Сериалы будут добавлены через JS -->
+        </div>
+    </div>
+    
+    <!-- Контейнер для видео-плеера -->
+    <div class="video-player-container" id="videoPlayer" style="display: none;">
+        <div class="player-header">
+            <h2 class="player-title" id="playerTitle">Название видео</h2>
+            <button class="close-player" id="closePlayer">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <video controls id="mainVideoPlayer">
+            <!-- Обновите путь к вашему видео -->
+            <source src="videos/r.mp4" type="video/mp4">
+            Ваш браузер не поддерживает видео тег.
+        </video>
+        <div class="video-meta-info">
+            <span id="playerYear">2023</span>
+            <button class="add-to-favorites" id="addToFav">
+                <i class="fas fa-heart"></i> В избранное
+            </button>
+        </div>
+    </div>
+    
+    <!-- Подвал -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-vk"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+                <p class="copyright">© 2023 Видеопортал "Синий Рассвет". Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Данные фильмов
+        const movies = [
+            {
+                title: "Мое специальное видео",
+                year: 2023,
+                type: "movie",
+                genre: "эксклюзив",
+                description: "Это мое личное видео, добавленное на сайт",
+                rating: 9.9,
+                thumbnail: "https://via.placeholder.com/300x200/ff9e00/000000?text=My+Video",
+                videoPath: "videos/r.mp4"
+            },
+            {
+                title: "Интерстеллар",
+                year: 2014,
+                type: "movie",
+                genre: "sci-fi",
+                description: "Фантастический эпос о путешествии группы исследователей, которые используют недавно обнаруженный пространственно-временной тоннель, чтобы обойти ограничения полёта человека в космосе.",
+                rating: 8.6,
+                thumbnail: "https://via.placeholder.com/300x200/0077b6/ffffff?text=Interstellar",
+                videoPath: "#"
+            },
+            {
+                title: "Начало",
+                year: 2010,
+                type: "movie",
+                genre: "sci-fi",
+                description: "Профессиональный вор, который крадет секреты через использование технологии совместных снов, получает задание внедрить идею в подсознание цели.",
+                rating: 8.8,
+                thumbnail: "https://via.placeholder.com/300x200/00b4d8/ffffff?text=Inception",
+                videoPath: "#"
+            }
+        ];
+        
+        // Данные сериалов
+        const series = [
+            {
+                title: "Игра престолов",
+                year: 2011,
+                type: "series",
+                genre: "fantasy",
+                description: "Девять знатных семей ведут войну за контроль над землями Вестероса, в то время как древний враг возвращается после тысячелетнего забвения.",
+                rating: 9.2,
+                thumbnail: "https://via.placeholder.com/300x200/ff9e00/000000?text=GoT",
+                videoPath: "#"
+            },
+            {
+                title: "Во все тяжкие",
+                year: 2008,
+                type: "series",
+                genre: "drama",
+                description: "Учитель химии, у которого диагностировали рак легких, начинает производить и продавать метамфетамин, чтобы обеспечить будущее своей семьи.",
+                rating: 9.5,
+                thumbnail: "https://via.placeholder.com/300x200/ffd166/000000?text=Breaking+Bad",
+                videoPath: "#"
+            }
+        ];
+        
+        // Функция для создания карточки видео
+        function createVideoCard(video) {
+            const card = document.createElement('div');
+            card.className = 'video-card';
+            card.innerHTML = `
+                <div class="video-thumbnail">
+                    <img src="${video.thumbnail}" alt="${video.title}">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">${video.title}</h3>
+                    <div class="video-meta">
+                        <span>${video.year}</span>
+                        <span class="video-type">${video.type === 'movie' ? 'Фильм' : 'Сериал'}</span>
+                    </div>
+                    <p class="video-desc">${video.description}</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i> ${video.rating}/10
+                    </div>
+                </div>
+            `;
+            
+            // Добавляем обработчик клика для воспроизведения
+            card.addEventListener('click', () => {
+                playVideo(video);
+            });
+            
+            return card;
+        }
+        
+        // Функция для отображения видео
+        function displayVideos() {
+            const moviesGrid = document.getElementById('movies-grid');
+            const seriesGrid = document.getElementById('series-grid');
+            
+            // Очищаем сетки
+            moviesGrid.innerHTML = '';
+            seriesGrid.innerHTML = '';
+            
+            // Добавляем фильмы
+            movies.forEach(movie => {
+                moviesGrid.appendChild(createVideoCard(movie));
+            });
+            
+            // Добавляем сериалы
+            series.forEach(ser => {
+                seriesGrid.appendChild(createVideoCard(ser));
+            });
+        }
+        
+        // Функционал для видео-плеера
+        const videoPlayer = document.getElementById('videoPlayer');
+        const mainVideoPlayer = document.getElementById('mainVideoPlayer');
+        const playerTitle = document.getElementById('playerTitle');
+        const playerYear = document.getElementById('playerYear');
+        const closePlayer = document.getElementById('closePlayer');
+        
+        function playVideo(video) {
+            playerTitle.textContent = video.title;
+            playerYear.textContent = video.year;
+            
+            // Устанавливаем источник видео
+            mainVideoPlayer.src = video.videoPath;
+            
+            // Показываем плеер
+            videoPlayer.style.display = 'block';
+            
+            // Начинаем воспроизведение
+            mainVideoPlayer.play();
+            
+            // Прокручиваем к плееру
+            videoPlayer.scrollIntoView({behavior: 'smooth'});
+        }
+        
+        // Закрытие плеера
+        closePlayer.addEventListener('click', () => {
+            videoPlayer.style.display = 'none';
+            mainVideoPlayer.pause();
+        });
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            displayVideos();
+            
+            // Фильтрация по категориям
+            document.getElementById('category').addEventListener('change', function() {
+                const value = this.value;
+                if (value === 'all') {
+                    document.getElementById('movies-grid').style.display = 'grid';
+                    document.getElementById('series-grid').style.display = 'grid';
+                    document.querySelectorAll('.section-title').forEach(el => el.style.display = 'inline-block');
+                } else if (value === 'movie') {
+                    document.getElementById('movies-grid').style.display = 'grid';
+                    document.getElementById('series-grid').style.display = 'none';
+                    document.querySelectorAll('.section-title')[0].style.display = 'inline-block';
+                    document.querySelectorAll('.section-title')[1].style.display = 'none';
+                } else {
+                    document.getElementById('movies-grid').style.display = 'none';
+                    document.getElementById('series-grid').style.display = 'grid';
+                    document.querySelectorAll('.section-title')[0].style.display = 'none';
+                    document.querySelectorAll('.section-title')[1].style.display = 'inline-block';
+                }
+            });
+            
+            // Поиск
+            document.querySelector('.search-box input').addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const allCards = document.querySelectorAll('.video-card');
+                
+                allCards.forEach(card => {
+                    const title = card.querySelector('.video-title').textContent.toLowerCase();
+                    if (title.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Фильтрация по годам
+            document.getElementById('year').addEventListener('change', function() {
+                const year = this.value;
+                const allCards = document.querySelectorAll('.video-card');
+                
+                allCards.forEach(card => {
+                    const cardYear = card.querySelector('.video-meta span').textContent;
+                    if (year === 'all' || cardYear === year) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
